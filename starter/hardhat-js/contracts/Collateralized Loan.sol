@@ -76,8 +76,8 @@ contract CollateralizedLoan {
 
         loan.isRepaid = true;
 
-        payable(loan.lender).transfer(msg.value);
-        payable(loan.borrower).transfer(loan.collateralAmount);
+        // payable(loan.lender).transfer(msg.value);
+        // payable(loan.borrower).transfer(loan.collateralAmount);
 
         emit LoanRepaid(_loanId, msg.sender);
     }
@@ -88,7 +88,9 @@ contract CollateralizedLoan {
         require(!loan.isRepaid, "Loan is already repaid.");
         require(block.timestamp > loan.dueDate, "Loan is not overdue.");
 
-        payable(loan.lender).transfer(loan.collateralAmount);
+        // payable(loan.lender).transfer(loan.collateralAmount);
+        // (bool success, ) = loan.lender.call{value: loan.collateralAmount}("");
+        // require(success, "Transfer failed.");
 
         emit CollateralClaimed(_loanId, msg.sender);
     }
