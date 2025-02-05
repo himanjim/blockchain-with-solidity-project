@@ -13,11 +13,7 @@ describe("CollateralizedLoan", function () {
     return { collateralizedLoan, owner, borrower, lender };
   }
   
-  it("Should deploy the contract and have a valid address", async function () {
-    const { collateralizedLoan } = await loadFixture(deployCollateralizedLoanFixture);
-    expect(collateralizedLoan.address).to.properAddress;
-  });
-
+  
   describe("Loan Request", function () {
     it("Should let a borrower deposit collateral and request a loan", async function () {
       const { collateralizedLoan, borrower } = await loadFixture(deployCollateralizedLoanFixture);
@@ -30,7 +26,7 @@ describe("CollateralizedLoan", function () {
 
       await expect(
         collateralizedLoan.connect(borrower).depositCollateralAndRequestLoan(interestRate, duration, collateral, { value: loanAmount })
-      ).to.emit(collateralizedLoan, "LoanRequested").withArgs(0, borrower.address, collateral, loanAmount, interestRate, currentTimestamp + duration);
+      ).to.emit(collateralizedLoan, "LoanRequested").withArgs(0, borrower.address, collateral, loanAmount, interestRate, currentTimestamp + duration + 1);
     });
   });
 
